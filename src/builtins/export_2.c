@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szakarya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mtumanya <mtumanya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 15:29:17 by szakarya          #+#    #+#             */
-/*   Updated: 2025/11/04 02:28:53 by szakarya         ###   ########.fr       */
+/*   Updated: 2025/12/01 19:43:16 by mtumanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	valid_export_key(char *s)
 	}
 	return (1);
 }
- 
+
 static void	export_new_value(t_shell *sh, char *key, char *val)
 {
 	t_env	*new;
@@ -49,7 +49,9 @@ static void	export_new_value(t_shell *sh, char *key, char *val)
 
 static int	export_one_2(char *arg, char *eq, char **key, char **val)
 {
-	int type = valid_export_key(arg);
+	int	type;
+
+	type = valid_export_key(arg);
 	if (!type)
 	{
 		ft_putstr_fd("bash: export: `", 2);
@@ -59,7 +61,7 @@ static int	export_one_2(char *arg, char *eq, char **key, char **val)
 	}
 	if (eq)
 	{
-		if(type == 2)
+		if (type == 2)
 			*key = ft_substr(arg, 0, (size_t)(eq - arg - 1));
 		else
 			*key = ft_substr(arg, 0, (size_t)(eq - arg));
@@ -69,9 +71,9 @@ static int	export_one_2(char *arg, char *eq, char **key, char **val)
 		*key = ft_strdup(arg);
 	if (!(*key) || (eq && !(*val)))
 		return (free(*key), free(*val), 1);
-	if(type == 2)
+	if (type == 2)
 		return (2);
-	return (0); 
+	return (0);
 }
 
 static int	export_one(t_shell *sh, char *arg, char *val)
@@ -79,10 +81,11 @@ static int	export_one(t_shell *sh, char *arg, char *val)
 	char	*eq;
 	char	*key;
 	t_env	*n;
-	
-	eq = ft_strchr(arg, '=');
+	int		type;
+	char	*newv;
 
-	int type = export_one_2(arg, eq, &key, &val);
+	eq = ft_strchr(arg, '=');
+	type = export_one_2(arg, eq, &key, &val);
 	if (type == 1)
 		return (1);
 	n = sh->t_env;
@@ -92,9 +95,9 @@ static int	export_one(t_shell *sh, char *arg, char *val)
 		{
 			if (eq)
 			{
-				if (type == 2) 
+				if (type == 2)
 				{
-					char *newv = ft_strjoin(n->value, val,0);
+					newv = ft_strjoin(n->value, val, 0);
 					free(n->value);
 					n->value = newv;
 					free(val);
