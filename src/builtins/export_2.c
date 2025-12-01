@@ -21,13 +21,15 @@ static int	valid_export_key(char *s)
 	i = 1;
 	while (s[i] && s[i] != '=')
 	{
+		if (s[i] == '+' && s[i + 1] == '=')
+			return (2);
 		if (!ft_isalnum((unsigned char)s[i]) && s[i] != '_')
 			return (0);
 		i++;
 	}
 	return (1);
 }
-
+ 
 static void	export_new_value(t_shell *sh, char *key, char *val)
 {
 	t_env	*new;
@@ -47,7 +49,8 @@ static void	export_new_value(t_shell *sh, char *key, char *val)
 
 static int	export_one_2(char *arg, char *eq, char **key, char **val)
 {
-	if (!valid_export_key(arg))
+	int type = valid_export_key(arg);
+	if (!type)
 	{
 		ft_putstr_fd("bash: export: `", 2);
 		ft_putstr_fd(arg, 2);
@@ -56,14 +59,19 @@ static int	export_one_2(char *arg, char *eq, char **key, char **val)
 	}
 	if (eq)
 	{
-		*key = ft_substr(arg, 0, (size_t)(eq - arg));
+		if(type == 2)
+			*key = ft_substr(arg, 0, (size_t)(eq - arg - 1));
+		else
+			*key = ft_substr(arg, 0, (size_t)(eq - arg));
 		*val = ft_strdup(eq + 1);
 	}
 	else
 		*key = ft_strdup(arg);
 	if (!(*key) || (eq && !(*val)))
 		return (free(*key), free(*val), 1);
-	return (0);
+	if(type == 2)
+		return (2);
+	return (0); 
 }
 
 static int	export_one(t_shell *sh, char *arg, char *val)
@@ -71,9 +79,11 @@ static int	export_one(t_shell *sh, char *arg, char *val)
 	char	*eq;
 	char	*key;
 	t_env	*n;
-
+	
 	eq = ft_strchr(arg, '=');
-	if (export_one_2(arg, eq, &key, &val))
+
+	int type = export_one_2(arg, eq, &key, &val);
+	if (type == 1)
 		return (1);
 	n = sh->t_env;
 	while (n)
@@ -82,8 +92,18 @@ static int	export_one(t_shell *sh, char *arg, char *val)
 		{
 			if (eq)
 			{
-				free(n->value);
-				n->value = val;
+				if (type == 2) 
+				{
+					char *newv = ft_strjoin(n->value, val,0);
+					free(n->value);
+					n->value = newv;
+					free(val);
+				}
+				else
+				{
+					free(n->value);
+					n->value = val;
+				}
 			}
 			else
 				free(val);
