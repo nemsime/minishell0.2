@@ -213,6 +213,7 @@ int		ft_echo(char **cmd, t_exec *cmds);
 // export.c
 int		ft_export(t_shell *sh, char **cmd, int state);
 void	ft_print_export(t_shell *sh);
+int		export_one(t_shell *sh, char *arg, char *val);
 
 // env.c
 int		ft_env(t_shell *sh, char **cmd);
