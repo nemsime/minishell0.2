@@ -42,7 +42,7 @@ char	*strip_quotes(char *s)
 }
 
 static void	write_heredoc_input(int fd,
-	char *delimiter, t_shell *sh, char *line)
+	char *delimiter, t_shell *sh, char *line, int drosh)
 {
 	char	*expanded;
 
@@ -62,7 +62,10 @@ static void	write_heredoc_input(int fd,
 			free(line);
 			break ;
 		}
-		expanded = expand_vars(line, sh, 0);
+		if (drosh)
+			expanded = ft_strdup(line);
+		else
+			expanded = expand_vars(line, sh, 0);
 		write(fd, expanded, ft_strlen(expanded));
 		write(fd, "\n", 1);
 		free(line);
@@ -71,7 +74,8 @@ static void	write_heredoc_input(int fd,
 	set_signals();
 }
 
-static void	collect_one_heredoc(t_exec *owner, char *delim, t_shell *sh)
+static void	collect_one_heredoc(t_exec *owner,
+	char *delim, t_shell *sh, int drosh)
 {
 	int		p[2];
 	char	*clean;
@@ -79,7 +83,7 @@ static void	collect_one_heredoc(t_exec *owner, char *delim, t_shell *sh)
 	if (pipe(p) == -1)
 		ft_exit_perror("pipe");
 	clean = strip_quotes(delim);
-	write_heredoc_input(p[1], clean, sh, NULL);
+	write_heredoc_input(p[1], clean, sh, NULL, drosh);
 	free(clean);
 	close(p[1]);
 	if (g_exit_status == 130)
@@ -93,13 +97,14 @@ static void	collect_one_heredoc(t_exec *owner, char *delim, t_shell *sh)
 	owner->heredoc_fd = p[0];
 }
 
-static void	append_heredoc_extra(t_exec *cur, char **tmp, t_shell *sh)
+static void	append_heredoc_extra(t_exec *cur,
+	char **tmp, t_shell *sh, int drosh)
 {
 	int		k;
 	char	*tmp2;
 
 	k = 1;
-	collect_one_heredoc(cur, tmp[0], sh);
+	collect_one_heredoc(cur, tmp[0], sh, drosh);
 	while (tmp[k])
 	{
 		if (!cur->cmd)
@@ -113,11 +118,29 @@ static void	append_heredoc_extra(t_exec *cur, char **tmp, t_shell *sh)
 	}
 }
 
+static void	droshak(int *drosh, char *arg)
+{
+	int	i;
+
+	i = 0;
+	*drosh = 0;
+	while (arg && arg[i])
+	{
+		if (arg[i] == '\'' || arg[i] == '"')
+		{
+			*drosh = 1;
+			return ;
+		}
+		i++;
+	}
+}
+
 void	herdoc_handle(t_shell *sh, t_exec **data, int count)
 {
 	t_exec	*cur;
 	t_rsub	*res;
 	char	**tmp;
+	int		drosh;
 
 	cur = *data;
 	while (cur)
@@ -125,9 +148,10 @@ void	herdoc_handle(t_shell *sh, t_exec **data, int count)
 		res = cur->subs;
 		while (res)
 		{
+			droshak(&drosh, res->arg);
 			tmp = ft_split(res->arg, ' ');
 			if (!ft_strncmp(res->op, "<<", 2))
-				append_heredoc_extra(cur, tmp, sh);
+				append_heredoc_extra(cur, tmp, sh, drosh);
 			ft_free(tmp);
 			res = res->next;
 		}
