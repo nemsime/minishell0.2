@@ -37,7 +37,8 @@ void	main_loop(t_shell *shell, char *expanded)
 {
 	while (1)
 	{
-		shell->input = readline("\001\033[1;34m\002MiniShell $ \001\033[1;36m\002");
+		shell->input = readline("\001\033[1;34m\002MiniShell $ "
+				"\001\033[1;36m\002");
 		if (!shell->input)
 		{
 			write(STDOUT_FILENO, "exit\n", 5);

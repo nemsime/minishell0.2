@@ -75,7 +75,7 @@ static void	handle_builtin_or_path(t_exec *cmds, t_vars *vars, t_shell *sh)
 		ft_free_execs(cmds);
 		exit(g_exit_status);
 	}
-	vars->path = find_cmd(cmds->cmd, sh->t_env, 0, NULL);
+	vars->path = find_cmd(cmds->cmd, sh->t_env, -1, NULL);
 	if (!vars->path)
 	{
 		restore_std(sh);

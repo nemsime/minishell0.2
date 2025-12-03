@@ -160,7 +160,6 @@ int		is_pipe_tok(char *s);
 t_exec	*new_exec_node(void);
 
 // find_path.c
-void	ft(char **str);
 int		find_path(t_env *env, char ***path);
 char	*find_cmd(char *command, t_env *env, int i, char *tmp);
 
@@ -186,8 +185,10 @@ char	*ft_join(char *a, char *b, char *c);
 char	**env_list_to_array(t_env *env, int count);
 
 // heredoc.c
-void	herdoc_handle(t_shell *sh, t_exec **data, int count);
+void	herdoc_handle(t_shell *sh, t_exec **data, int count, int drosh);
 char	*strip_quotes(char *s);
+void	append_heredoc_extra(t_exec *cur,
+			char **tmp, t_shell *sh, int drosh);
 
 // builtins.c
 int		ft_cd(t_shell *sh, char **cmd);

@@ -106,7 +106,7 @@ int	start(t_shell *sh, int status)
 
 	cmds = split_by_pipe(sh, 0, new_exec_node(), NULL);
 	if (sh->heredocs > 0)
-		herdoc_handle(sh, &cmds, 0);
+		herdoc_handle(sh, &cmds, 0, 0);
 	if (!cmds)
 		return (0);
 	if (cmds->cmd)
