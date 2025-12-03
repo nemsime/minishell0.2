@@ -62,6 +62,8 @@ char	*find_cmd(char *command, t_env *env, int i, char *tmp)
 	char	**paths;
 	char	**cmd;
 
+	if (access (command, X_OK) == 0)
+		return (ft_strdup(command));
 	if (find_path(env, &paths) == 0)
 		return (NULL);
 	cmd = ft_split(command, ' ');
