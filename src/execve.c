@@ -132,7 +132,7 @@ void	redirections_execve(t_exec *cmds, t_vars *vars, int i, t_shell *sh)
 	if (ft_strncmp(cmds->cmd, " ", 2) == 0 && (cmds->token
 			&& ft_strncmp(cmds->token, "<<", 3) == 0))
 		exit(0);
-	tmp = strip_quotes(cmds->cmd, ft_strdup(""));
+	tmp = strip_quotes(cmds->cmd);
 	handle_special_cmds(cmds, sh, tmp);
 	free(tmp);
 	handle_builtin_or_path(cmds, vars, sh);

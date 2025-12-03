@@ -187,7 +187,7 @@ char	**env_list_to_array(t_env *env, int count);
 
 // heredoc.c
 void	herdoc_handle(t_shell *sh, t_exec **data, int count);
-char	*strip_quotes(char *s, char *res);
+char	*strip_quotes(char *s);
 
 // builtins.c
 int		ft_cd(t_shell *sh, char **cmd);

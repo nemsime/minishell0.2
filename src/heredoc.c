@@ -12,14 +12,16 @@
 
 #include "minishell.h"
 
-char	*strip_quotes(char *s, char *res)
+char	*strip_quotes(char *s)
 {
+	char	*res;
 	int		i;
 	int		start;
 	char	q;
 
 	if (!s)
-		return (res);
+		return (NULL);
+	res = ft_strdup("");
 	i = 0;
 	while (s[i])
 	{
@@ -76,7 +78,7 @@ static void	collect_one_heredoc(t_exec *owner, char *delim, t_shell *sh)
 
 	if (pipe(p) == -1)
 		ft_exit_perror("pipe");
-	clean = strip_quotes(delim, ft_strdup(""));
+	clean = strip_quotes(delim);
 	write_heredoc_input(p[1], clean, sh, NULL);
 	free(clean);
 	close(p[1]);

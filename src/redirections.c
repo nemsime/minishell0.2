@@ -17,7 +17,7 @@ static int	redir_input(char *file, t_exec *cmds)
 	int		fd;
 	char	*name;
 
-	name = strip_quotes(file, ft_strdup(""));
+	name = strip_quotes(file);
 	fd = open(name, O_RDONLY);
 	free(name);
 	if (fd < 0)
@@ -38,7 +38,7 @@ int	redir_output(char *file, char *type, t_exec *cmds)
 	int		fd;
 	char	*name;
 
-	name = strip_quotes(file, ft_strdup(""));
+	name = strip_quotes(file);
 	if (!ft_strncmp(type, ">>", 3))
 		fd = open(name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else
