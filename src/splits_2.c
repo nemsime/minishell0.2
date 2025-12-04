@@ -60,3 +60,32 @@ t_rsub	*new_sub(char *op, char *arg)
 	r->next = NULL;
 	return (r);
 }
+
+int	extract_cmd_from_cmd2(t_exec *cur, int i)
+{
+	char	**sp;
+
+	if (cur->cmd || !cur->cmd2
+		|| (cur->token && ft_strncmp(cur->token, "<<", 2) == 0))
+		return (1);
+	sp = ft_split(cur->cmd2, ' ');
+	if (!sp || !sp[0] || !sp[1])
+		return (ft_free(sp), 1);
+	if (sp[1])
+		cur->cmd = ft_strdup(sp[1]);
+	if (sp[2] && sp[2][0] == '-')
+	{
+		cur->cmd = ft_strjoin(cur->cmd, " ", 1);
+		cur->cmd = ft_strjoin(cur->cmd, sp[2], 1);
+		i = 3;
+	}
+	free(cur->subs->arg);
+	cur->subs->arg = ft_strdup(sp[0]);
+	while (sp[i])
+	{
+		cur->subs->arg = ft_strjoin(cur->cmd, " ", 1);
+		cur->subs->arg = ft_strjoin(cur->cmd, sp[i], 1);
+		i++;
+	}
+	return (ft_free(sp), 1);
+}

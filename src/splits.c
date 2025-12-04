@@ -56,6 +56,7 @@ void	split_by_pipe_2(t_shell *sh, int *i, t_exec *cur)
 static void	helper(t_shell *sh, int *i, t_exec *cur)
 {
 	split_by_pipe_2(sh, i, cur);
+	extract_cmd_from_cmd2(cur, 2);
 	if (cur->cmd2)
 	{
 		free(cur->cmd2);

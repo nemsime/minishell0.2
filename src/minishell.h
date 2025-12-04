@@ -158,6 +158,7 @@ t_rsub	*new_sub(char *op, char *arg);
 int		is_redir_tok(char *s);
 int		is_pipe_tok(char *s);
 t_exec	*new_exec_node(void);
+int		extract_cmd_from_cmd2(t_exec *cur, int i);
 
 // find_path.c
 int		find_path(t_env *env, char ***path);
