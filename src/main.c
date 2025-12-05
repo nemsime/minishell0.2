@@ -30,6 +30,14 @@ int	main_loop_help(t_shell *shell, char *expanded)
 		free(shell->input);
 		return (1);
 	}
+	if (shell->pipe_count > 1024)
+	{
+		g_exit_status = 1;
+		free(shell->input);
+		ft_free(shell->tokens);
+		printf("Error: Too many pipes\n");
+		return (1);
+	}
 	return (0);
 }
 
@@ -37,6 +45,7 @@ void	main_loop(t_shell *shell, char *expanded)
 {
 	while (1)
 	{
+		init_shell(shell);
 		shell->input = readline("\001\033[1;34m\002MiniShell $ "
 				"\001\033[1;36m\002");
 		if (!shell->input)

@@ -120,11 +120,5 @@ int	token(t_shell *sh, int i, int j)
 		ft_free(sh->tokens);
 		return (1);
 	}
-	if (sh->pipe_count > 1024)
-	{
-		g_exit_status = 1;
-		ft_free(sh->tokens);
-		return (1);
-	}
 	return (0);
 }
