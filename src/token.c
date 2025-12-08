@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szakarya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mtumanya <mtumanya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 02:29:52 by szakarya          #+#    #+#             */
-/*   Updated: 2025/11/04 02:29:53 by szakarya         ###   ########.fr       */
+/*   Updated: 2025/12/08 20:00:35 by mtumanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,14 @@ int	token(t_shell *sh, int i, int j)
 	if (syntax_error(sh, 0))
 	{
 		g_exit_status = 2;
-		ft_free(sh->tokens);
+		reinit2(&sh);
+		return (1);
+	}
+	if (sh->pipe_count > 128)
+	{
+		write(1, "Pipe Limit Error\n", 17);
+		g_exit_status = 1;
+		reinit2(&sh);
 		return (1);
 	}
 	return (0);

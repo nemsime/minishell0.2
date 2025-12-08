@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szakarya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mtumanya <mtumanya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 02:34:00 by szakarya          #+#    #+#             */
-/*   Updated: 2025/11/04 02:34:01 by szakarya         ###   ########.fr       */
+/*   Updated: 2025/12/08 19:54:23 by mtumanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,16 @@ void	reinit(t_shell **shell)
 	(*shell)->heredocs = 0;
 	(*shell)->redirs = 0;
 	free((*shell)->input);
+	ft_free((*shell)->tokens);
+	restore_std(*shell);
+}
+
+void	reinit2(t_shell **shell)
+{
+	(*shell)->tok_count = 0;
+	(*shell)->pipe_count = 0;
+	(*shell)->heredocs = 0;
+	(*shell)->redirs = 0;
 	ft_free((*shell)->tokens);
 	restore_std(*shell);
 }

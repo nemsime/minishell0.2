@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szakarya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mtumanya <mtumanya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 02:30:01 by szakarya          #+#    #+#             */
-/*   Updated: 2025/11/04 02:30:02 by szakarya         ###   ########.fr       */
+/*   Updated: 2025/12/08 20:55:59 by mtumanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	handling_signal(int signal)
 void	sigint_during_wait(int sig)
 {
 	(void)sig;
+	g_exit_status = 130;
 	write(STDOUT_FILENO, "\n", 1);
 }
 

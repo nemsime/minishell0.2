@@ -6,7 +6,7 @@
 /*   By: mtumanya <mtumanya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 02:34:10 by szakarya          #+#    #+#             */
-/*   Updated: 2025/11/04 14:46:15 by mtumanya         ###   ########.fr       */
+/*   Updated: 2025/12/08 19:55:05 by mtumanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ void	free_env(t_env *env);
 // init.c
 void	init_shell(t_shell *shell);
 void	reinit(t_shell **shell);
+void	reinit2(t_shell **shell);
 void	init_env(t_shell *shell, char **envp);
 
 // signals.c

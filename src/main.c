@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szakarya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mtumanya <mtumanya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/04 02:34:02 by szakarya          #+#    #+#             */
-/*   Updated: 2025/11/04 02:34:03 by szakarya         ###   ########.fr       */
+/*   Created: 2025/12/08 21:03:35 by mtumanya          #+#    #+#             */
+/*   Updated: 2025/12/08 21:03:37 by mtumanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,6 @@ int	main_loop_help(t_shell *shell, char *expanded)
 		free(shell->input);
 		return (1);
 	}
-	if (shell->pipe_count > 1024)
-	{
-		g_exit_status = 1;
-		free(shell->input);
-		ft_free(shell->tokens);
-		printf("Error: Too many pipes\n");
-		return (1);
-	}
 	return (0);
 }
 
@@ -45,7 +37,6 @@ void	main_loop(t_shell *shell, char *expanded)
 {
 	while (1)
 	{
-		init_shell(shell);
 		shell->input = readline("\001\033[1;34m\002MiniShell $ "
 				"\001\033[1;36m\002");
 		if (!shell->input)

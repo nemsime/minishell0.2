@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szakarya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mtumanya <mtumanya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 02:33:45 by szakarya          #+#    #+#             */
-/*   Updated: 2025/11/04 02:33:46 by szakarya         ###   ########.fr       */
+/*   Updated: 2025/12/08 20:59:11 by mtumanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ static int	check_directory_and_exec(t_exec *cmds, t_vars *vars, t_shell *sh,
 		exit(126);
 	}
 	errno = 0;
+	printf("env = %s\n", get_env_value("SHLVL", sh));
 	execve(vars->path, vars->cmd, env_arr);
 	restore_std(sh);
 	if (errno == ENOENT)

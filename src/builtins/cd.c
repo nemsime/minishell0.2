@@ -6,7 +6,7 @@
 /*   By: mtumanya <mtumanya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 02:33:23 by szakarya          #+#    #+#             */
-/*   Updated: 2025/11/04 14:55:27 by mtumanya         ###   ########.fr       */
+/*   Updated: 2025/12/08 21:04:51 by mtumanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ static int	cd_go_to_path(t_shell *sh, t_cd *cd, char **cmd)
 	{
 		cd->path = get_env_value("HOME", sh);
 		if (!cd->path || cd->path[0] == '\0')
-			return (ft_free(cmd), write(2, "bash: cd: HOME not set\n", 23),
-				g_exit_status = 1, 1);
+			return (ft_free(cmd), free(cd->path),
+				write(2, "bash: cd: HOME not set\n", 23), g_exit_status = 1, 1);
 		if (chdir(cd->path) == -1)
 			return (perror("cd"), ft_free(cmd), free(cd->path),
 				g_exit_status = 1, 1);
@@ -110,7 +110,7 @@ int	ft_cd(t_shell *sh, char **cmd)
 			g_exit_status = 1, 1);
 	cd_set_oldpwd(sh, &cd);
 	if (cd_go_to_path(sh, &cd, cmd))
-		return (1);
+		return (ft_free(cd.export_dot), 1);
 	cd_set_pwd(sh, &cd, cmd);
 	if (g_exit_status == 1)
 		return (ft_free(cmd), ft_free(cd.export_dot), 1);
