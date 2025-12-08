@@ -8,6 +8,9 @@ LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 SRCS = src/main.c src/minishell.c src/init.c src/builtins/cd.c src/builtins/pwd.c src/builtins/env.c src/builtins/echo.c src/builtins/export.c src/builtins/export_2.c src/builtins/unset.c src/token.c src/check.c src/expend.c src/frees.c src/signals.c src/redirections.c src/splits.c src/splits_2.c src/find_path.c src/builtins/exit.c src/heredoc.c src/utils.c src/expend_2.c src/builtins/builtins.c src/builtins/export_3.c src/execve.c src/heredoc_2.c 
+
+VALGRIND =	valgrind --leak-check=full --show-leak-kinds=all  --suppressions=readline.supp
+
 OBJS = $(SRCS:.c=.o)
 
 RM = rm -f
@@ -31,6 +34,9 @@ clean:
 fclean: clean
 	$(RM) $(NAME)
 	make fclean -C $(LIBFT_DIR)
+
+val: $(NAME) clean
+	$(VALGRIND) ./$(NAME)
 
 re: fclean all
 
